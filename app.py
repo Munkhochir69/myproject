@@ -11,7 +11,7 @@ creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", sco
 client = gspread.authorize(creds)
 
 # Бичих sheet-ээ сонго
-sheet = client.open("Dump inspection sheet").Өдөр.дутмын.үзлэг  # Чиний Google Sheet нэрийг тааруулна уу!
+sheet = client.open("Dump inspection sheet").Өдөрдутмынүзлэг  # Чиний Google Sheet нэрийг тааруулна уу!
 
 @app.route("/", methods=["GET", "POST"])
 def form():
