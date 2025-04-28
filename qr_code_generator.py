@@ -2,7 +2,7 @@
 import qrcode
 
 # Таны вэб хаяг
-url = "http://localhost:5000/"  # Энд URL нь таны серверийн хаяг байх ёстой
+url = "https://myproject-3u58.onrender.com/"  # Энд URL нь таны серверийн хаяг байх ёстой
 
 # QR код үүсгэнэ
 qr = qrcode.make(url)
