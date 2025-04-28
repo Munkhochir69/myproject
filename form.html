@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="mn">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Дамп Үзлэгийн Форм</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f0f2f5;
+      }
+      .form-container {
+        max-width: 800px;
+        margin: 30px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+      }
+      label {
+        font-weight: bold;
+        color: #333;
+      }
+      h1,
+      h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #343a40;
+      }
+      input[type="file"] {
+        border: 2px dashed #6c757d;
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      input[type="file"]:hover {
+        background-color: #e2e6ea;
+      }
+      #preview {
+        margin-top: 15px;
+        max-width: 100%;
+        height: auto;
+        border: 2px solid #6c757d;
+        padding: 8px;
+        border-radius: 12px;
+        background-color: #fff;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        display: none;
+        transition: opacity 0.5s ease;
+      }
+      .btn-submit {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.2em;
+        border-radius: 10px;
+      }
+      .form-check-label {
+        font-weight: normal;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="form-container">
+      <h1>Дамп Үзлэгийн Форм</h1>
+
+      <form method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label>Дамп парк дугаар:</label>
+          <input type="text" name="damp_number" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+          <label>Мото цаг:</label>
+          <input type="text" name="moto_hour" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+          <label>Өдөр/Шөнө:</label>
+          <select name="shift" class="form-select" required>
+            <option value="Өдөр">Өдөр</option>
+            <option value="Шөнө">Шөнө</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label>Үзлэг хийсэн операторын нэр:</label>
+          <input
+            type="text"
+            name="operator_name"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label>Шалгасан механик:</label>
+          <input
+            type="text"
+            name="mechanic_name"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <h2>Үзлэгийн Асуултууд</h2>
+
+        {% set questions = [ "Дугуйн ивүүрийг шалгах", "Кардан голны бүрэн
+        байдал", "Хойд дугуй, урд дугуйнууд, бэхэлгээнүүд", "Захын дамжуулагч,
+        подвескны гоожилт шалгах", "Тэвш, өргөх цилиндрийн пальц, суурь боолт",
+        "Тормозны шугамуудыг шалгах", "Хойд тэнхлэгний боолтуудыг шалгах",
+        "Чулуу зайлуулагч, шаврын хаалтны бүрэн байдал", "Шланк, цилиндр,
+        хомутны бэхэлгээ", "Дулаан мэдрэгч хоолой зөв холбогдсон эсэх",
+        "Цилиндрүүдийн кронштейн зөв эсэх", "Түгжээ лацны бүрэн байдал",
+        "Подвискнуудын даралтыг шалгах", "Галын систем", "Аккумуляторын
+        бэхэлгээ, клем, толгой", "Коллектор, яндангийн бүрэн байдал", "Гидрийн
+        шингэний түвшин", "Радиаторын гуурс, хоолой", "Хөдөлгүүрийн тосны
+        түвшин", "Трансмиссын шингэний түвшин", "Радиаторын антифризийн түвшин",
+        "Гидрийн бак, шланкны бүрэн байдал", "Хөргөлтийн системийн бүрэн
+        байдал", "Сэнс, жанам, агааржуулагчийн ремен", "Рулийн цилиндр болон
+        шланкны гоожилт", "Хөдөлгүүрийн доод хэсгээр гоожиж байгаа эсэх", "Толь,
+        шил арчигч, цонхнуудын бүрэн байдал", "Суудлын бүс", "Трансмисс болон
+        тормоз удаашруулагч хөшүүрэг", "Бүх хянах гэрэл, дуут дохио, ухрах
+        дохио, гэрэл", "Суурин станц", "Галын хор бүрэн байдал", "Галын хор
+        цэнэгтэй эсэх", "Ослын гурвалжин", "Конус", "Эмийн сан", "Дугуйн
+        элэгдэл" ] %} {% for i in range(1, 38) %}
+        <div class="mb-3">
+          <label class="form-label">{{i}}. {{ questions[i-1] }}</label><br />
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="check_{{i}}"
+              value="Хэвийн"
+              required
+            />
+            <label class="form-check-label">Хэвийн</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="check_{{i}}"
+              value="Хэвийн бус"
+            />
+            <label class="form-check-label">Хэвийн бус</label>
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="mb-3">
+          <label>Тайлбар:</label>
+          <textarea name="description" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label>Зураг илгээх:</label>
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            capture="environment"
+            onchange="previewImage(event)"
+            class="form-control"
+          />
+        </div>
+
+        <div class="preview-container text-center">
+          <img id="preview" src="#" alt="Таны зураг энд харагдана" />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-submit mt-4">
+          Илгээх
+        </button>
+      </form>
+    </div>
+
+    <script>
+      function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById("preview");
+
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.style.display = "block";
+            preview.style.opacity = 0;
+            setTimeout(() => {
+              preview.style.opacity = 1;
+            }, 100);
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+    </script>
+  </body>
+</html>
