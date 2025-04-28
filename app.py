@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
-import pytz  # нэмсэн
+import pytz  # Цагийн бүс тохируулахад хэрэгтэй
 
 app = Flask(__name__)
 
@@ -11,7 +11,6 @@ scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/au
 creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
 client = gspread.authorize(creds)
 
-# Бичих sheet-ээ зөв сонго
 sheet = client.open("Dump inspection sheet").worksheet("Өдөр.дутмын.үзлэг")
 
 @app.route("/", methods=["GET", "POST"])
@@ -29,11 +28,10 @@ def form():
         for i in range(1, 38):
             checks.append(request.form.get(f"check_{i}"))
 
-        # Монголын цаг
-        mongolia_tz = pytz.timezone('Asia/Ulaanbaatar')
-        timestamp = datetime.now(mongolia_tz).strftime("%Y-%m-%d %H:%M:%S")
+        # Монголын цагийг тохируулъя
+        mongolia_timezone = pytz.timezone('Asia/Ulaanbaatar')
+        timestamp = datetime.now(mongolia_timezone).strftime("%Y-%m-%d %H:%M:%S")
 
-        # Sheet рүү бичих утгууд
         row = [timestamp, damp_number, moto_hour, shift, operator_name, mechanic_name] + checks + [description]
 
         try:
@@ -41,9 +39,15 @@ def form():
         except Exception as e:
             return f"Алдаа гарлаа: {str(e)}"
 
-        return redirect("/")  # Амжилттай хадгалаад буцана
+        # Амжилтын хуудас руу шилжүүлнэ
+        return redirect(url_for('success'))
 
     return render_template("form.html")
+
+# Амжилтын хуудас
+@app.route("/success")
+def success():
+    return render_template("success.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
