@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
+import pytz  # нэмсэн
 
 app = Flask(__name__)
 
@@ -28,8 +29,9 @@ def form():
         for i in range(1, 38):
             checks.append(request.form.get(f"check_{i}"))
 
-        # Огноо цаг
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # Монголын цаг
+        mongolia_tz = pytz.timezone('Asia/Ulaanbaatar')
+        timestamp = datetime.now(mongolia_tz).strftime("%Y-%m-%d %H:%M:%S")
 
         # Sheet рүү бичих утгууд
         row = [timestamp, damp_number, moto_hour, shift, operator_name, mechanic_name] + checks + [description]
@@ -41,7 +43,7 @@ def form():
 
         return redirect("/")  # Амжилттай хадгалаад буцана
 
-    return render_template("form.html")  # Таны формын html файл
+    return render_template("form.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
