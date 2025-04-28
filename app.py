@@ -10,8 +10,8 @@ scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/au
 creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
 client = gspread.authorize(creds)
 
-# Бичих sheet-ээ сонго
-sheet = client.open("Dump inspection sheet").Өдөрдутмынүзлэг  # Чиний Google Sheet нэрийг тааруулна уу!
+# Бичих sheet-ээ зөв сонго
+sheet = client.open("Dump inspection sheet").worksheet("Өдөр.дутмын.үзлэг")
 
 @app.route("/", methods=["GET", "POST"])
 def form():
@@ -23,7 +23,7 @@ def form():
         mechanic_name = request.form.get("mechanic_name")
         description = request.form.get("description")
 
-        # 37 асуултын хариултыг авах
+        # 37 асуултын хариулт
         checks = []
         for i in range(1, 38):
             checks.append(request.form.get(f"check_{i}"))
@@ -31,15 +31,17 @@ def form():
         # Огноо цаг
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Sheet рүү бичих утгуудыг дараалуулах
+        # Sheet рүү бичих утгууд
         row = [timestamp, damp_number, moto_hour, shift, operator_name, mechanic_name] + checks + [description]
 
-        # Sheet рүү мөр нэмэх
-        sheet.append_row(row)
+        try:
+            sheet.append_row(row)
+        except Exception as e:
+            return f"Алдаа гарлаа: {str(e)}"
 
-        return redirect("/")  # Амжилттай хадгалаад гол хуудас руу буцаана
+        return redirect("/")  # Амжилттай хадгалаад буцана
 
-    return render_template("form.html")  # Чиний HTML файлын нэрийг энд тааруулна
+    return render_template("form.html")  # Таны формын html файл
 
 if __name__ == "__main__":
     app.run(debug=True)
