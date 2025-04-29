@@ -9,28 +9,42 @@
     />
     <style>
       body {
-        background-color: #f0f2f5;
+        background: linear-gradient(135deg, #e0f7fa, #f0f4f8);
+        font-family: 'Segoe UI', sans-serif;
       }
       .form-container {
-        max-width: 800px;
-        margin: 30px auto;
-        background: #fff;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 850px;
+        margin: 40px auto;
+        background: #ffffff;
+        padding: 40px 30px;
+        border-radius: 20px;
+        box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.1);
+      }
+      h1, h2 {
+        text-align: center;
+        color: #2e3c52;
+        font-weight: bold;
       }
       label {
-        font-weight: bold;
-        color: #333;
+        font-weight: 600;
+        color: #444;
       }
-      h1,
-      h2 {
-        text-align: center;
-        margin-bottom: 25px;
-        color: #343a40;
+      input[type="text"],
+      select,
+      textarea {
+        border-radius: 10px !important;
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        transition: 0.3s;
+      }
+      input[type="text"]:focus,
+      select:focus,
+      textarea:focus {
+        border-color: #1976d2 !important;
+        box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.2) !important;
       }
       input[type="file"] {
-        border: 2px dashed #6c757d;
+        border: 2px dashed #90a4ae;
         background-color: #f8f9fa;
         padding: 15px;
         border-radius: 10px;
@@ -40,30 +54,34 @@
       input[type="file"]:hover {
         background-color: #e2e6ea;
       }
-      #preview {
-        margin-top: 15px;
-        max-width: 100%;
-        height: auto;
-        border: 2px solid #6c757d;
-        padding: 8px;
-        border-radius: 12px;
-        background-color: #fff;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-        display: none;
-        transition: opacity 0.5s ease;
-      }
-      .btn-submit {
-        width: 100%;
-        padding: 12px;
-        font-size: 1.2em;
-        border-radius: 10px;
-      }
       .form-check-label {
         font-weight: normal;
       }
+      #preview {
+        margin-top: 15px;
+        max-width: 100%;
+        max-height: 300px;
+        border-radius: 10px;
+        display: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        transition: 0.5s ease-in-out;
+      }
+      .btn-submit {
+        width: 100%;
+        padding: 14px;
+        font-size: 1.1em;
+        border-radius: 12px;
+        background-color: #1976d2;
+        border: none;
+        color: white;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+      .btn-submit:hover {
+        background-color: #1565c0;
+        transform: scale(1.02);
+      }
     </style>
   </head>
-
   <body>
     <div class="form-container">
       <h1>Дамп Үзлэгийн Форм</h1>
@@ -89,12 +107,7 @@
 
         <div class="mb-3">
           <label>Үзлэг хийсэн операторын нэр:</label>
-          <input
-            type="text"
-            name="operator_name"
-            class="form-control"
-            required
-          />
+          <input type="text" name="operator_name" class="form-control" required />
         </div>
 
         <div class="mb-3">
@@ -107,32 +120,16 @@
 
         <h2>Үзлэгийн Асуултууд</h2>
 
-        {% set questions = [ "Дугуйн ивүүрийг шалгах", "Кардан голны бүрэн
-        байдал", "Хойд дугуй, урд дугуйнууд, бэхэлгээнүүд", "Захын дамжуулагч,
-        подвескны гоожилт шалгах", "Тэвш, өргөх цилиндрийн пальц, суурь боолт",
-        "Тормозны шугамуудыг шалгах", "Хойд тэнхлэгний боолтуудыг шалгах",
-        "Чулуу зайлуулагч, шаврын хаалтны бүрэн байдал", "Шланк, цилиндр,
-        хомутны бэхэлгээ", "Дулаан мэдрэгч хоолой зөв холбогдсон эсэх",
-        "Цилиндрүүдийн кронштейн зөв эсэх", "Түгжээ лацны бүрэн байдал",
-        "Подвискнуудын даралтыг шалгах", "Галын систем", "Аккумуляторын
-        бэхэлгээ, клем, толгой", "Коллектор, яндангийн бүрэн байдал", "Гидрийн
-        шингэний түвшин", "Радиаторын гуурс, хоолой", "Хөдөлгүүрийн тосны
-        түвшин", "Трансмиссын шингэний түвшин", "Радиаторын антифризийн түвшин",
-        "Гидрийн бак, шланкны бүрэн байдал", "Хөргөлтийн системийн бүрэн
-        байдал", "Сэнс, жанам, агааржуулагчийн ремен", "Рулийн цилиндр болон
-        шланкны гоожилт", "Хөдөлгүүрийн доод хэсгээр гоожиж байгаа эсэх", "Толь,
-        шил арчигч, цонхнуудын бүрэн байдал", "Суудлын бүс", "Трансмисс болон
-        тормоз удаашруулагч хөшүүрэг", "Бүх хянах гэрэл, дуут дохио, ухрах
-        дохио, гэрэл", "Суурин станц", "Галын хор бүрэн байдал", "Галын хор
-        цэнэгтэй эсэх", "Ослын гурвалжин", "Конус", "Эмийн сан", "Дугуйн
-        элэгдэл" ] %} {% for i in range(1, 38) %}
+        {% set questions = [ "Дугуйн ивүүрийг шалгах", "Кардан голны бүрэн байдал", "Хойд дугуй, урд дугуйнууд, бэхэлгээнүүд", "Захын дамжуулагч, подвескны гоожилт шалгах", "Тэвш, өргөх цилиндрийн пальц, суурь боолт", "Тормозны шугамуудыг шалгах", "Хойд тэнхлэгний боолтуудыг шалгах", "Чулуу зайлуулагч, шаврын хаалтны бүрэн байдал", "Шланк, цилиндр, хомутны бэхэлгээ", "Дулаан мэдрэгч хоолой зөв холбогдсон эсэх", "Цилиндрүүдийн кронштейн зөв эсэх", "Түгжээ лацны бүрэн байдал", "Подвискнуудын даралтыг шалгах", "Галын систем", "Аккумуляторын бэхэлгээ, клем, толгой", "Коллектор, яндангийн бүрэн байдал", "Гидрийн шингэний түвшин", "Радиаторын гуурс, хоолой", "Хөдөлгүүрийн тосны түвшин", "Трансмиссын шингэний түвшин", "Радиаторын антифризийн түвшин", "Гидрийн бак, шланкны бүрэн байдал", "Хөргөлтийн системийн бүрэн байдал", "Сэнс, жанам, агааржуулагчийн ремен", "Рулийн цилиндр болон шланкны гоожилт", "Хөдөлгүүрийн доод хэсгээр гоожиж байгаа эсэх", "Толь, шил арчигч, цонхнуудын бүрэн байдал", "Суудлын бүс", "Трансмисс болон тормоз удаашруулагч хөшүүрэг", "Бүх хянах гэрэл, дуут дохио, ухрах дохио, гэрэл", "Суурин станц", "Галын хор бүрэн байдал", "Галын хор цэнэгтэй эсэх", "Ослын гурвалжин", "Конус", "Эмийн сан", "Дугуйн элэгдэл" ] %}
+
+        {% for i in range(1, 38) %}
         <div class="mb-3">
-          <label class="form-label">{{i}}. {{ questions[i-1] }}</label><br />
+          <label class="form-label">{{ i }}. {{ questions[i-1] }}</label><br />
           <div class="form-check form-check-inline">
             <input
               class="form-check-input"
               type="radio"
-              name="check_{{i}}"
+              name="check_{{ i }}"
               value="Хэвийн"
               required
             />
@@ -142,7 +139,7 @@
             <input
               class="form-check-input"
               type="radio"
-              name="check_{{i}}"
+              name="check_{{ i }}"
               value="Хэвийн бус"
             />
             <label class="form-check-label">Хэвийн бус</label>
@@ -167,13 +164,11 @@
           />
         </div>
 
-        <div class="preview-container text-center">
-          <img id="preview" src="#" alt="Таны зураг энд харагдана" />
+        <div class="text-center">
+          <img id="preview" src="#" alt="Зургийн урьдчилсан харагдац" />
         </div>
 
-        <button type="submit" class="btn btn-primary btn-submit mt-4">
-          Илгээх
-        </button>
+        <button type="submit" class="btn btn-submit mt-4">Илгээх</button>
       </form>
     </div>
 
@@ -181,16 +176,11 @@
       function previewImage(event) {
         const input = event.target;
         const preview = document.getElementById("preview");
-
         if (input.files && input.files[0]) {
           const reader = new FileReader();
           reader.onload = function (e) {
             preview.src = e.target.result;
             preview.style.display = "block";
-            preview.style.opacity = 0;
-            setTimeout(() => {
-              preview.style.opacity = 1;
-            }, 100);
           };
           reader.readAsDataURL(input.files[0]);
         }
