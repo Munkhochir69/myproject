@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="mn">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Техник сонгох</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        padding: 40px;
+        margin: 0;
+        background-color: #f9f9f9;
+      }
+
+      h1 {
+        margin-bottom: 30px;
+      }
+
+      .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        max-width: 1000px;
+        margin: auto;
+      }
+
+      .tech-card {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 15px;
+        background: white;
+        text-decoration: none;
+        color: black;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        transition: 0.3s;
+      }
+
+      .tech-card:hover {
+        transform: translateY(-5px);
+        background-color: #f0f0f0;
+      }
+
+      img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      h3 {
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Техникийн төрөлөө сонгоно уу.</h1>
+    <div class="tech-grid">
+      <a class="tech-card" href="/form/dump">
+        <img src="/static/dump.jpg" alt="Dump" />
+        <h3>Дамп</h3>
+      </a>
+      <a class="tech-card" href="/form/excavator">
+        <img src="/static/excavator.jpg" alt="Excavator" />
+        <h3>Экскаватор</h3>
+      </a>
+      <a class="tech-card" href="/form/dozer">
+        <img src="/static/dozer.jpg" alt="Dozer" />
+        <h3>Дозер</h3>
+      </a>
+      <a class="tech-card" href="/form/grader">
+        <img src="/static/grader.jpg" alt="Grader" />
+        <h3>Грейдер</h3>
+      </a>
+      <a class="tech-card" href="/form/loader">
+        <img src="/static/loader.jpg" alt="Loader" />
+        <h3>Ковш</h3>
+      </a>
+    </div>
+  </body>
+</html>
