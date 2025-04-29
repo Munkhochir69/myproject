@@ -9,189 +9,172 @@
     />
     <style>
       body {
-        background-color: #f0f2f5;
-      }
-      .form-container {
-        max-width: 800px;
-        margin: 30px auto;
-        background: #fff;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
-      }
-      label {
-        font-weight: bold;
-        color: #333;
-      }
-      h1,
-      h2 {
-        text-align: center;
-        margin-bottom: 25px;
-        color: #343a40;
-      }
-      input[type="file"] {
-        border: 2px dashed #6c757d;
         background-color: #f8f9fa;
-        padding: 15px;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
       }
-      input[type="file"]:hover {
-        background-color: #e2e6ea;
-      }
-      #preview {
-        margin-top: 15px;
-        max-width: 100%;
-        height: auto;
-        border: 2px solid #6c757d;
-        padding: 8px;
-        border-radius: 12px;
-        background-color: #fff;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-        display: none;
-        transition: opacity 0.5s ease;
-      }
-      .btn-submit {
-        width: 100%;
-        padding: 12px;
-        font-size: 1.2em;
-        border-radius: 10px;
-      }
-      .form-check-label {
-        font-weight: normal;
+      .card {
+        border-radius: 1rem;
       }
     </style>
   </head>
-
   <body>
-    <div class="form-container">
-      <h1>Дамп Үзлэгийн Форм</h1>
+    <div class="container">
+      <div class="my-3">
+        <a href="/" class="btn btn-outline-primary">&larr; Буцах</a>
+      </div>
+      <div class="card p-4 shadow-sm">
+        <h1 class="text-center mb-4">
+          {{ vehicle | capitalize }} техникийн асуумж
+        </h1>
+        <form method="POST" action="/submit" enctype="multipart/form-data">
+          <input type="hidden" name="vehicle" value="{{ vehicle }}" />
 
-      <form method="POST" enctype="multipart/form-data">
-        <div class="mb-3">
-          <label>Дамп парк дугаар:</label>
-          <input type="text" name="damp_number" class="form-control" required />
-        </div>
-
-        <div class="mb-3">
-          <label>Мото цаг:</label>
-          <input type="text" name="moto_hour" class="form-control" required />
-        </div>
-
-        <div class="mb-3">
-          <label>Өдөр/Шөнө:</label>
-          <select name="shift" class="form-select" required>
-            <option value="Өдөр">Өдөр</option>
-            <option value="Шөнө">Шөнө</option>
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label>Үзлэг хийсэн операторын нэр:</label>
-          <input
-            type="text"
-            name="operator_name"
-            class="form-control"
-            required
-          />
-        </div>
-
-        <div class="mb-3">
-          <label>Шалгасан механик:</label>
-          <select name="mechanic_name" class="form-select" required>
-            <option value="Бяамбадагва">Бяамбадагва</option>
-            <option value="Өлзийбаатар">Өлзийбаатар</option>
-          </select>
-        </div>
-
-        <h2>Үзлэгийн Асуултууд</h2>
-
-        {% set questions = [ "Дугуйн ивүүрийг шалгах", "Кардан голны бүрэн
-        байдал", "Хойд дугуй, урд дугуйнууд, бэхэлгээнүүд", "Захын дамжуулагч,
-        подвескны гоожилт шалгах", "Тэвш, өргөх цилиндрийн пальц, суурь боолт",
-        "Тормозны шугамуудыг шалгах", "Хойд тэнхлэгний боолтуудыг шалгах",
-        "Чулуу зайлуулагч, шаврын хаалтны бүрэн байдал", "Шланк, цилиндр,
-        хомутны бэхэлгээ", "Дулаан мэдрэгч хоолой зөв холбогдсон эсэх",
-        "Цилиндрүүдийн кронштейн зөв эсэх", "Түгжээ лацны бүрэн байдал",
-        "Подвискнуудын даралтыг шалгах", "Галын систем", "Аккумуляторын
-        бэхэлгээ, клем, толгой", "Коллектор, яндангийн бүрэн байдал", "Гидрийн
-        шингэний түвшин", "Радиаторын гуурс, хоолой", "Хөдөлгүүрийн тосны
-        түвшин", "Трансмиссын шингэний түвшин", "Радиаторын антифризийн түвшин",
-        "Гидрийн бак, шланкны бүрэн байдал", "Хөргөлтийн системийн бүрэн
-        байдал", "Сэнс, жанам, агааржуулагчийн ремен", "Рулийн цилиндр болон
-        шланкны гоожилт", "Хөдөлгүүрийн доод хэсгээр гоожиж байгаа эсэх", "Толь,
-        шил арчигч, цонхнуудын бүрэн байдал", "Суудлын бүс", "Трансмисс болон
-        тормоз удаашруулагч хөшүүрэг", "Бүх хянах гэрэл, дуут дохио, ухрах
-        дохио, гэрэл", "Суурин станц", "Галын хор бүрэн байдал", "Галын хор
-        цэнэгтэй эсэх", "Ослын гурвалжин", "Конус", "Эмийн сан", "Дугуйн
-        элэгдэл" ] %} {% for i in range(1, 38) %}
-        <div class="mb-3">
-          <label class="form-label">{{i}}. {{ questions[i-1] }}</label><br />
-          <div class="form-check form-check-inline">
+          <div class="mb-3">
+            <label for="park_number" class="form-label">Парк дугаар:</label>
             <input
-              class="form-check-input"
-              type="radio"
-              name="check_{{i}}"
-              value="Хэвийн"
+              type="text"
+              class="form-control"
+              id="park_number"
+              name="park_number"
               required
             />
-            <label class="form-check-label">Хэвийн</label>
           </div>
-          <div class="form-check form-check-inline">
+
+          <div class="mb-3">
+            <label for="shift" class="form-label">Ээлж:</label>
+            <select id="shift" name="shift" class="form-select" required>
+              <option value="Өдөр">Өдөр</option>
+              <option value="Шөнө">Шөнө</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="operator" class="form-label"
+              >Үзлэг хийсэн оператор:</label
+            >
             <input
-              class="form-check-input"
-              type="radio"
-              name="check_{{i}}"
-              value="Хэвийн бус"
+              type="text"
+              class="form-control"
+              id="operator"
+              name="operator"
+              required
             />
-            <label class="form-check-label">Хэвийн бус</label>
           </div>
-        </div>
-        {% endfor %}
 
-        <div class="mb-3">
-          <label>Тайлбар:</label>
-          <textarea name="description" class="form-control" rows="3"></textarea>
-        </div>
+          <div class="mb-3">
+            <label for="mechanic" class="form-label">Шалгасан механик:</label>
+            <select class="form-select" id="mechanic" name="mechanic" required>
+              <option value="БЯАМБАДАГВА">БЯАМБАДАГВА</option>
+              <option value="Мөнх-Очир">Мөнх-Очир</option>
+            </select>
+          </div>
 
-        <div class="mb-3">
-          <label>Зураг илгээх:</label>
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            capture="environment"
-            onchange="previewImage(event)"
-            class="form-control"
-          />
-        </div>
+          <ol>
+            {% for question in questions %}
+            <li class="mb-3">
+              <label class="form-label fw-bold">{{ question }}</label><br />
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="q{{ loop.index }}"
+                  value="хэвийн"
+                  required
+                />
+                <label class="form-check-label">хэвийн</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="q{{ loop.index }}"
+                  value="Хэвийн бус"
+                />
+                <label class="form-check-label">Хэвийн бус</label>
+              </div>
+            </li>
+            {% endfor %}
+          </ol>
 
-        <div class="preview-container text-center">
-          <img id="preview" src="#" alt="Таны зураг энд харагдана" />
-        </div>
+          <div class="mb-4">
+            <h5 class="mb-3">Зураг хавсаргах:</h5>
 
-        <button type="submit" class="btn btn-primary btn-submit mt-4">
-          Илгээх
-        </button>
-      </form>
+            <div class="card p-3 mb-3">
+              <label for="image1" class="form-label">Зураг 1:</label>
+              <input
+                class="form-control"
+                type="file"
+                id="image1"
+                name="image1"
+                accept="image/*"
+                capture="environment"
+                onchange="previewImage(event, 'preview1')"
+              />
+              <img
+                id="preview1"
+                src=""
+                alt="Preview 1"
+                class="img-fluid mt-2 d-none"
+              />
+            </div>
+
+            <div class="card p-3 mb-3">
+              <label for="image2" class="form-label">Зураг 2:</label>
+              <input
+                class="form-control"
+                type="file"
+                id="image2"
+                name="image2"
+                accept="image/*"
+                capture="environment"
+                onchange="previewImage(event, 'preview2')"
+              />
+              <img
+                id="preview2"
+                src=""
+                alt="Preview 2"
+                class="img-fluid mt-2 d-none"
+              />
+            </div>
+
+            <div class="card p-3 mb-3">
+              <label for="image3" class="form-label">Зураг 3:</label>
+              <input
+                class="form-control"
+                type="file"
+                id="image3"
+                name="image3"
+                accept="image/*"
+                capture="environment"
+                onchange="previewImage(event, 'preview3')"
+              />
+              <img
+                id="preview3"
+                src=""
+                alt="Preview 3"
+                class="img-fluid mt-2 d-none"
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-success btn-lg w-100">
+            Илгээх
+          </button>
+        </form>
+      </div>
     </div>
 
     <script>
-      function previewImage(event) {
+      function previewImage(event, previewId) {
         const input = event.target;
-        const preview = document.getElementById("preview");
+        const reader = new FileReader();
+
+        reader.onload = function () {
+          const img = document.getElementById(previewId);
+          img.src = reader.result;
+          img.classList.remove("d-none");
+        };
 
         if (input.files && input.files[0]) {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            preview.src = e.target.result;
-            preview.style.display = "block";
-            preview.style.opacity = 0;
-            setTimeout(() => {
-              preview.style.opacity = 1;
-            }, 100);
-          };
           reader.readAsDataURL(input.files[0]);
         }
       }
