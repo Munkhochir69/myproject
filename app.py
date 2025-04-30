@@ -72,7 +72,8 @@ def submit():
         data.get("park_number"),
         data.get("shift"),
         data.get("operator"),
-        data.get("mechanic")
+        data.get("mechanic"),
+        data.get("comment")
     ]
 
     # Асуултуудыг нэмэх
