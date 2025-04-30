@@ -84,7 +84,11 @@ def submit():
     # Sheet рүү бичих
     sheet.append_row(row)
 
-    return redirect(url_for("index"))
+    return redirect(url_for("success"))
+    
+@app.route('/success')
+def success():
+    return render_template("success.html")
 
 # Server run
 if __name__ == "__main__":
