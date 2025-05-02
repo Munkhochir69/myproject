@@ -70,6 +70,7 @@ def submit():
         timestamp,
         data.get("vehicle"),
         data.get("park_number"),
+        data.get("Мот цаг"),
         data.get("shift"),
         data.get("operator"),
         data.get("mechanic"),
