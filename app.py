@@ -64,7 +64,9 @@ def form(vehicle):
 @app.route("/submit", methods=["POST"])
 def submit():
     data = request.form
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    #Улаанбаатар хотын цаг
+    ub_timezone=pytz.timezone('Asia/Ulaanbaatar')
+    timestamp = datetime.now(ub_timezone).strftime("%Y-%m-%d %H:%M")
 
     row = [
         timestamp,
